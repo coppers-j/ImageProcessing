@@ -17,7 +17,7 @@ load_image(char *filename)
   unsigned char *data = stbi_load(filename, &x, &y, &n, 0);
   struct stat attr;
   printf("Width: %d Height: %d PixelComp: %d\n", x, y, n);
-
+  printf("\n\n%s\n\n", data);
   stbi_image_free(data);
 }
 
