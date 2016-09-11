@@ -15,9 +15,15 @@ load_image(char *filename)
 {
   int x,y,n;
   unsigned char *data = stbi_load(filename, &x, &y, &n, 0);
-  struct stat attr;
-  printf("Width: %d Height: %d PixelComp: %d\n", x, y, n);
-  printf("\n\n%s\n\n", data);
+
+  printf("Width: %d Height: %d PixelComp: %d\nSIZE: %d\n", x, y, n, sz);
+  int count = 0;
+  for(int i=0;i<x*y*3;i+=3)
+  {
+    printf("x:%d y:%d - R:%d G:%d B:%d\n", (i/3)%x, (i/3)/x,
+                    data[i], data[i+1], data[i+2]);
+  }
+
   stbi_image_free(data);
 }
 
