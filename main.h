@@ -16,12 +16,26 @@
 #ifndef _MAIN_H_
 #define _MAIN_H_
 
-// WINDOWS
+// bmp
+const unsigned char HEADER_s[] = {0x42, 0x4D,0x4C,0x00,0x00,0x00,0x00,0x00,
+                        0x00,0x00,0x1A,0x00,0x00,0x00,0x0C,0x00,0x00,0x00};
+const unsigned char HEADER_e[] =  {0x01,0x00,0x18,0x00};
+const unsigned char BUFF[] = {0x00,0x00};
 
 struct input{
   int blur;
   int sharpen;
   char *fname;
+};
+
+struct image{
+  unsigned char *red;
+  unsigned char *green;
+  unsigned char *blue;
+  unsigned char *alpha;
+  int width;
+  int height;
+  int n;
 };
 
 #endif

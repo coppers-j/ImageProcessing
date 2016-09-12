@@ -14,15 +14,31 @@ void
 load_image(char *filename)
 {
   int x,y,n;
-  unsigned char *data = stbi_load(filename, &x, &y, &n, 0);
+  unsigned char *data = stbi_load(filename, &x, &y, &n, 3);
 
-  printf("Width: %d Height: %d PixelComp: %d\nSIZE: %d\n", x, y, n, sz);
-  int count = 0;
-  for(int i=0;i<x*y*3;i+=3)
+  printf("Width: %d Height: %d PixelComp: %d\n", x, y, n);
+
+  FILE *fp;
+
+  fp = fopen( "file.bmp" , "w" );
+
+  unsigned char o[2];
+
+  fwrite(HEADER_s , 1 , sizeof(HEADER_s) , fp );
+  o[0] = x & 0xFF;
+  o[1] = (x >> 8) & 0xFF;
+  fwrite(o , 1 , sizeof(o) , fp );
+  o[0] = y & 0xFF;
+  o[1] = (y >> 8) & 0xFF;
+  fwrite(o , 1 , sizeof(o) , fp );
+  fwrite(HEADER_e , 1 , sizeof(HEADER_e) , fp );
+  for(int i=(x*y*3)-1;i>-1;i-=3)
   {
-    printf("x:%d y:%d - R:%d G:%d B:%d\n", (i/3)%x, (i/3)/x,
-                    data[i], data[i+1], data[i+2]);
+    fprintf(fp, "%c%c%c",data[i], data[i-1], data[i-2]);
   }
+  //fwrite(data , 1 , x*y*3 , fp );
+  fwrite(BUFF , 1 , sizeof(BUFF) , fp );
+  fclose(fp);
 
   stbi_image_free(data);
 }
@@ -41,5 +57,6 @@ main(int argc, char **argv)
   }else{
     printf("Too many input arguments\n");
   }
+
   return 0;
 }
